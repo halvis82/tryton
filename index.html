@@ -6,15 +6,245 @@
     <title>Tryton</title>
     <link rel="shortcut icon" href="./media/tryton_favicon.png" type="image/x-icon">
     <style>
+        /* === Reset & Base Styles === */
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+        body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f4f4f4;
+        padding: 20px;
+        }
 
+        /* === Header & Nav === */
+        header {
+        background: #005f73;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        }
+        nav {
+        margin: 15px 0;
+        text-align: center;
+        }
+        nav a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #005f73;
+        font-weight: bold;
+        }
+        nav a:hover {
+        text-decoration: underline;
+        }
+
+        /* Title + GIFs */
+        header {
+          display: flex;
+          justify-content: space;
+          align-items: center;
+          /* width: 100%; */
+        }
+        .title-gif-wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+        .header-gif {
+          width: 200px;
+          height: auto;
+        }
+
+        /* === Sections === */
+        section {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        }
+        section h2 {
+        margin-bottom: 10px;
+        color: #0a9396;
+        }
+        section p, section ul {
+        margin-left: 20px;
+        }
+
+        /* === Gallery === */
+        .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        }
+        .gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform .2s;
+        }
+        .gallery img:hover {
+        transform: scale(1.05);
+        }
+
+        /* === Modal (for image lightbox) === */
+        #imgModal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        }
+        #imgModal img {
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 4px;
+        }
+        #imgModal span {
+        position: absolute;
+        top: 20px; right: 30px;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+        }
+
+        #specs {
+          display: flex;
+          justify-content: space-between;
+        }
     </style>
-</head>
-<body>
-    <img src="./media/tryton.gif" alt="spinning tryton drone">
 
+    <script defer>
+        // === Image Lightbox ===
+        const modal = document.getElementById('imgModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.getElementById('modalClose');
 
-    <script>
+        // Open modal on image click
+        document.querySelectorAll('.gallery img').forEach(img => {
+        img.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+        });
+        });
+
+        // Close modal
+        closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        });
+        modal.addEventListener('click', e => {
+        if (e.target === modal) modal.style.display = 'none';
+        });
 
     </script>
+</head>
+<body>
+    <header>
+      <div class="title-gif-wrapper">
+        <img src="./media/tryton.gif" alt="Motor control demo" class="header-gif" style="transform: scaleX(-1);">
+        <h1>Tryton: Subsea Remotely Operated Vehicle</h1>
+        <img src="./media/tryton.gif" alt="Video streaming demo" class="header-gif">
+      </div>
+    </header>
+
+    <nav>
+    <a href="#overview">Overview</a>
+    <a href="#specs">Specifications</a>
+    <a href="#potential">Potential</a>
+    <a href="#team">Team</a>
+    <a href="#gallery">Gallery</a>
+    <a href="https://github.com/halvis82/tryton" target="_blank">GitHub Repo ↗</a>
+    </nav>
+
+    <main>
+    <section id="overview">
+        <h2>Project Overview</h2>
+        <p>
+        Tryton is a modular, low-cost, 3D-printable underwater ROV that delivers
+        sensor-based positioning, manual control via USB game controller, and
+        real-time video feedback over Ethernet. Built on the open-source CPS5
+        frame, we’re integrating ArduPilot, depth sensors, IMU stabilization,
+        and a live video pipeline to create a robust MVP for research and
+        environmental monitoring.
+        </p>
+    </section>
+
+    <section id="specs">
+      <div>
+        <h2>Specifications</h2>
+        <ul>
+        <li><strong>Frame:</strong> 3D-printed CPS5-based structure</li>
+        <li><strong>Control:</strong> Pixhawk with ArduPilot & QGroundControl</li>
+        <li><strong>Stabilization:</strong> Depth sensor + IMU position hold</li>
+        <li><strong>Video:</strong> Raspberry Pi camera → Ethernet streaming</li>
+        <li><strong>Power:</strong> LiPo battery pack, internal ESC distribution</li>
+        <li><strong>Enclosure:</strong> Acrylic tube with waterproof seals</li>
+        </ul>
+      </div>
+
+      <img src="./media/tryton_assemly.gif" alt="Video streaming demo" class="header-gif" id="assmebly-gif">
+    </section>
+
+    <section id="potential">
+        <h2>Potential Applications</h2>
+        <p>
+        Environmental monitoring, underwater surveying, autonomous object
+        detection & tracking, habitat mapping, and proof-of-concept for
+        future fully-autonomous subsea vehicles.
+        </p>
+    </section>
+
+    <section id="team">
+        <h2>Team Members</h2>
+        <ul>
+        <li><strong>Brandon Hargitay</strong> – Team Lead: Frame design,
+            structural assembly, video integration.</li>
+        <li><strong>Halvor Hafnor</strong> – Electrical Lead: Sensor wiring,
+            power systems, ESC integration.</li>
+        <li><strong>Jayanti Lahoti</strong> – Software Lead: Firmware config,
+            QGroundControl setup, video pipeline.</li>
+        </ul>
+    </section>
+
+    <section id="gallery">
+        <h2>Progress Gallery</h2>
+        <div class="gallery">
+        <!-- replace placeholder URLs with real file paths -->
+        <!-- <img src="./media/tryton_assemly.gif" alt="3D-printed frame parts"> -->
+        <img src="./media/progress1.JPG" alt="Electronics tube assembly">
+        <img src="./media/progress2.JPG" alt="Soldering ESCs and sensors">
+        <img src="./media/progress3.JPG" alt="Depth sensor installation">
+        <img src="./media/progress4.JPG" alt="Pool dry-fit waterproof test">
+        <img src="./media/progress5.jpeg" alt="Topside computer and QGroundControl">
+        <img src="./media/progress6.JPG" alt="Animated motor control demo">
+        <img src="./media/progress7.jpg" alt="Video streaming pipeline animation">
+        <img src="./media/progress8.jpg" alt="Video streaming pipeline animation">
+        <img src="./media/progress9.jpg" alt="Video streaming pipeline animation">
+        <img src="./media/progress10.jpg" alt="Video streaming pipeline animation">
+        <img src="./media/progress11.jpg" alt="Video streaming pipeline animation">
+        </div>
+    </section>
+    </main>
+
+    <footer>
+    <p>
+      
+    </p>
+    </footer>
+
+    <!-- Modal for full-size gallery images -->
+    <div id="imgModal">
+    <span id="modalClose">&times;</span>
+    <img id="modalImg" src="" alt="">
+    </div>
+
 </body>
 </html>
